@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>My Movie Gallery</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="lib/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="lib/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="lib/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="appCtrl">
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular-route/angular-route.js"></script>
+  <script src="app.js"></script>
+  <script src="view1/view1.js"></script>
+  <script src="view2/view2.js"></script>
+  <script src="core/version/version.js"></script>
+  <script src="core/version/version-directive.js"></script>
+  <script src="core/version/interpolate-filter.js"></script>
+  
+  <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+    
+    <div class="container-fluid">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">MovieGallery</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Theatre1</a>
+        </li>
+        <li class="navbar-form navbar-right">
+          <a class="nav-link active" href="#">Theatre2</a>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-right" >
+        <div class="input-group">
+          <ul class="navbar-nav" ng-if="current_user==''">
+            <li class="nav-item" ng-click="toggle_loginsection()">
+              <a class="nav-link active" href="#"><i class="fas fa-user"></i>Login</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav" ng-if="current_user!=''">
+              <p class="nav-link active"><i class="fas fa-user"></i>{{current_user}}</a>
+            </li>
+          </ul>
+          <input type="text" class="form-control" placeholder="Search" name="search">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </nav>
+
+  <main ng-if="page=='homepage'">
+    <div class="banner-img" style="width:100%;height:800px;margin-top: 0px;">\
+          
+             <div  class="form-block" ng-if="loginsection_status">
+              
+              <i class="fa fa-window-close fa-3x float-end " aria-hidden="true" ng-click="toggle_loginsection()"></i>
+              <p ng-if="loginemessage!=''">{{loginemessage}}</p>
+              <p ng-if="register_emessage!=''">{{register_emessage}}</p>
+              <form class="alignicon">
+               <div class="form-group">
+                <i class="fa fa-user-circle fa-5x"aria-hidden="true"></i>
+               </div>
+              </form>
+              <form ng-if="model_page=='login'">
+                <div class="form-group">
+                  <label for="lemail">Email:</label>
+                  <input type="email" class="form-control" id="lemail" placeholder="Enter email" name="email">
+                </div>
+                <div class="form-group">
+                  &nbsp;
+                </div>
+                <div class="form-group">
+                  <label for="lpassword">Password:</label>
+                  <input type="password" class="form-control" id="lpassword" placeholder="Enter password" name="pwd">
+                </div>
+                <div class="form-group">
+                  &nbsp;
+                </div>
+                <button ng-click="login_verify()" class="btn btn-success">Login</button>
+                <p class="text-decoration-underline text-primary" ng-click="signup_redirect()">signup-Page</p>
+              </form>
+
+              <form ng-if="model_page=='signup'">
+                <div class="form-group">
+                  <label for="rname">UserName:</label>
+                  <input type="text" class="form-control" id="rname" placeholder="Enter UserName" name="rname">
+                </div>
+                <div class="form-group">
+                  &nbsp;
+                </div>
+                <div class="form-group">
+                  <label for="remail">Email:</label>
+                  <input type="email" class="form-control" id="remail" placeholder="Enter email" name="remail">
+                </div>
+                <div class="form-group">
+                  &nbsp;
+                </div>
+                <div class="form-group">
+                  <label for="rpassword">Password:</label>
+                  <input type="password" class="form-control" id="rpassword" placeholder="Enter password" name="rpassword">
+                </div>
+                <div class="form-group">
+                  &nbsp;
+                </div>
+                <div class="form-group">
+                  <label for="repassword">Re enter Password:</label>
+                  <input type="password" class="form-control" id="repassword" placeholder="Enter password" name="rpassword">
+                </div>
+                <div class="form-group">
+                  &nbsp;
+                </div>
+                <div class="form-group">
+                  <label for="customer_type">Select an option</label>
+                  <select name="customer_type" id="customer_type">
+                    <option value="premium">Premium</option>
+                    <option value="nonpremium">nonpremium</option> 
+                    </select>
+                </div>
+                <div class="form-group">
+                  &nbsp;
+                </div>
+                <button  class="btn btn-success" ng-click="register_verify()">Register</button>
+                <p class="text-decoration-underline text-primary" ng-click="loginpage_redirect()">login-Page</p>
+              </form>
+             </div>
+    </div>
+    <div class="section_under_banner">
+      Hello its your spiderman coming in everyone's home theatres buy tickets available in Movie Gallery 
+      
+    </div>
+</main>
+
+
+<main class="Homepage" ng-if="page=='firstpage'">
+  <div class="-fx-image-gal">
+
+    <div class="-fx-gal-item">
+      <div class="-fx-gal-image-thumb" tabindex="1">
+        <img src="lib/images/image1.jpg" />
+      </div>
+      <div class="-fx-gal-image-big">
+        <img src="lib/images/image1.jpg" />
+        <nav class="navbar navbar-light bg-light">
+          <form class="form-inline">
+            <button class="btn btn-primary" ng-if="current_user_type=='premium'">Watch now</button>
+            <div class="alert alert-primary" role="alert" ng-if="current_user_type=='nonpremium'">
+              Please register for premium to watch the movie
+            </div>
+            
+          </form>
+        </nav>
+      </div>
+    </div><!-- /-fx-gal-item -->
+  
+    <div class="-fx-gal-item">
+      <div class="-fx-gal-image-thumb" tabindex="1">
+        <img src="lib/images/image2.jpg" />
+      </div>
+      <div class="-fx-gal-image-big">
+        <img src="lib/images/image2.jpg" />
+        <nav class="navbar navbar-light bg-light">
+          <form class="form-inline">
+            <button class="btn btn-primary" >Watch now</button>
+            
+          </form>
+        </nav>
+      </div>
+    </div><!-- /-fx-gal-item -->
+  
+    <div class="-fx-gal-item">
+      <div class="-fx-gal-image-thumb" tabindex="1">
+        <img src="lib/images/image4.jpg" />
+      </div>
+      <div class="-fx-gal-image-big">
+        <img src="lib/images/image4.jpg" />
+        <nav class="navbar navbar-light bg-light">
+          <form class="form-inline">
+            <button class="btn btn-primary" >Watch now</button>
+            
+          </form>
+        </nav>
+      </div>
+    </div><!-- /-fx-gal-item -->
+
+    <div class="-fx-gal-item">
+      <div class="-fx-gal-image-thumb" tabindex="1">
+        <img src="lib/images/image1.jpg" />
+      </div>
+      <div class="-fx-gal-image-big">
+        <img src="lib/images/image1.jpg" />
+        <nav class="navbar navbar-light bg-light">
+          <form class="form-inline">
+            <button class="btn btn-primary" >Watch now</button>
+            
+          </form>
+        </nav>
+      </div>
+    </div><!-- /-fx-gal-item -->
+  
+    <div class="-fx-gal-item">
+      <div class="-fx-gal-image-thumb" tabindex="1">
+        <img src="lib/images/image2.jpg" />
+      </div>
+      <div class="-fx-gal-image-big">
+        <img src="lib/images/image2.jpg" />
+        <nav class="navbar navbar-light bg-light">
+          <form class="form-inline">
+            <button class="btn btn-primary" >Watch now</button>
+            
+          </form>
+        </nav>
+      </div>
+    </div><!-- /-fx-gal-item -->
+  
+    <div class="-fx-gal-item">
+      <div class="-fx-gal-image-thumb" tabindex="1">
+        <img src="lib/images/image5.jpg" />
+      </div>
+      <div class="-fx-gal-image-big">
+        <img src="lib/images/image5.jpg" />
+        <nav class="navbar navbar-light bg-light">
+          <form class="form-inline">
+            <button class="btn btn-primary" >Watch now</button>
+            
+          </form>
+        </nav>
+      </div>
+    </div>
+  
+    <div class="-fx-gal-item">
+      <div class="-fx-gal-image-thumb" tabindex="1">
+        <img src="lib/images/image1.jpg" />
+      </div>
+      <div class="-fx-gal-image-big">
+        <img src="lib/images/image1.jpg" />
+        <nav class="navbar navbar-light bg-light">
+          <form class="form-inline">
+            <button class="btn btn-primary" >Watch now</button>
+            
+          </form>
+        </nav>
+      </div>
+    </div><!-- /-fx-gal-item -->
+  
+    <div class="-fx-gal-item">
+      <div class="-fx-gal-image-thumb" tabindex="1">
+        <img src="lib/images/image2.jpg" />
+      </div>
+      <div class="-fx-gal-image-big">
+        <img src="lib/images/image2.jpg" />
+        <nav class="navbar navbar-light bg-light">
+          <form class="form-inline">
+            <button class="btn btn-primary" >Watch now</button>
+            
+          </form>
+        </nav>
+      </div>
+    </div><!-- /-fx-gal-item -->
+  
+    <div class="-fx-gal-item">
+      <div class="-fx-gal-image-thumb" tabindex="1">
+        <img src="lib/images/image6.jpg" />
+      </div>
+      <div class="-fx-gal-image-big">
+        <img src="lib/images/image6.jpg" />
+        <nav class="navbar navbar-light bg-light">
+          <form class="form-inline">
+            <button class="btn btn-primary" >Watch now</button>
+            
+          </form>
+        </nav>
+      </div>
+    </div>
+  
+    
+  
+  </div><!-- /gallery -->
+</main>
+
+
+<footer>
+
+</footer>
+
+
+</body>
+</html>
